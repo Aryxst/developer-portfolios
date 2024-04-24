@@ -6,7 +6,6 @@ declare var self: Worker;
 export type RequestResult = [string, number, number, boolean, Array<string>];
 const outDir = import.meta.dir + '/../out';
 self.onmessage = async ({ data: urls }: MessageEvent) => {
- await Bun.sleep(3000);
  const requests: RequestResult[] = [];
  for (let i = 0; i < urls.length; i++) {
   const url = new URL(urls[i]);
@@ -19,10 +18,7 @@ self.onmessage = async ({ data: urls }: MessageEvent) => {
    const normalizedUrl = normalizeUrl(url.href);
    const dest = `${outDir}/${normalizedUrl}.txt`;
    const file = Bun.file(dest);
-   if (await file.exists()) {
-    console.log(`Skipping ${url} | ${normalizedUrl} |`);
-    continue;
-   }
+
    const writer = file.writer();
    writer.start();
    writer.write(
@@ -34,7 +30,6 @@ self.onmessage = async ({ data: urls }: MessageEvent) => {
         if (!src) return;
         const cssRes = await fetch(src);
         writer.write(await cssRes.arrayBuffer());
-
         writer.flush();
        } catch (err) {
         console.error(`Failed to fetch css for ${url}:`, err);
