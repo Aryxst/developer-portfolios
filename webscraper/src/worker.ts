@@ -8,11 +8,14 @@ self.onmessage = async ({ data: urls }: MessageEvent) => {
  const requests: RequestResult[] = [];
  for (let i = 0; i < urls.length; i++) {
   const url = new URL(urls[i]);
+  console.time('fetch');
+  console.log(`| ${i + 1}/${urls.length} | ${url} |`);
   const tick = performance.now();
   try {
    const res = await fetch(url.href);
    const success = res.status < 400;
-   const dest = `${outDir}/[${url.href.replaceAll('/', '-')}].txt`;
+   const fileName = url.href.replace(/http.*\/\//g, '').replace(/\//g, '_');
+   const dest = `${outDir}/${fileName}.txt`;
    const file = Bun.file(dest);
    const writer = file.writer();
    writer.start();
@@ -71,12 +74,14 @@ self.onmessage = async ({ data: urls }: MessageEvent) => {
      if (regexps[k].some((exp: RegExp) => exp.test(text))) return k;
      return;
     })
-    .filter(x => x) as Array<string>;
+    .filter((x) => x) as Array<string>;
    // Push the site url, the time it took to fetch it, the size of the file, whether the request was successful and the matched regexps
    requests.push([url.href, Math.round(performance.now() - tick), file.size, success, matchedExps]);
+   console.timeEnd('fetch');
   } catch (err) {
    console.error(`Failed to process ${url}:`, err);
   }
  }
+
  self.postMessage(requests);
 };
