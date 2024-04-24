@@ -2,10 +2,10 @@ import os from 'os';
 import log from './lib/log';
 import { chunkify } from './utils';
 import type { RequestResult } from './worker';
-import urls from "../../data/urls.json";
+import urls from '../../data/urls.json';
 console.clear();
 const cpus = os.cpus();
-const urls = ;
+
 log('i', 'Loading data...');
 log('i', `Found ${urls.length} entries in entry data...`);
 const threadCount = Number(prompt(`How many cpus do you want to use? (1-${cpus.length})`));
@@ -35,5 +35,5 @@ async function run(jobs: any, concurrentWorkers: number) {
   });
  });
  console.log(chunks);
-
+}
 run(urls, threadCount);
