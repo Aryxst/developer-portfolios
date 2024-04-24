@@ -1,10 +1,12 @@
 import { regexps } from './namings';
 import { parseUrl } from './utils';
+import { normalizeUrl } from '../../shared/lib';
 
 declare var self: Worker;
 export type RequestResult = [string, number, number, boolean, Array<string>];
 const outDir = import.meta.dir + '/../out';
 self.onmessage = async ({ data: urls }: MessageEvent) => {
+ await Bun.sleep(3000);
  const requests: RequestResult[] = [];
  for (let i = 0; i < urls.length; i++) {
   const url = new URL(urls[i]);
@@ -14,9 +16,13 @@ self.onmessage = async ({ data: urls }: MessageEvent) => {
   try {
    const res = await fetch(url.href);
    const success = res.status < 400;
-   const fileName = url.href.replace(/http.*\/\//g, '').replace(/\//g, '_');
-   const dest = `${outDir}/${fileName}.txt`;
+   const normalizedUrl = normalizeUrl(url.href);
+   const dest = `${outDir}/${normalizedUrl}.txt`;
    const file = Bun.file(dest);
+   if (await file.exists()) {
+    console.log(`Skipping ${url} | ${normalizedUrl} |`);
+    continue;
+   }
    const writer = file.writer();
    writer.start();
    writer.write(
@@ -63,7 +69,7 @@ self.onmessage = async ({ data: urls }: MessageEvent) => {
       },
      })
      .transform(res)
-     .arrayBuffer(),
+     .arrayBuffer()
    );
    writer.end();
    const text = await file.text();

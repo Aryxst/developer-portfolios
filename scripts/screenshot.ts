@@ -2,6 +2,7 @@ import puppeteer from "puppeteer";
 import urls from "../data/urls.json";
 import names from "../data/names.json";
 import { existsSync } from "node:fs";
+import { parseUrlToScreenshotName, sleep } from "../shared/lib";
 // default 2 s
 const slightlyDelayed = [
   "https://aditya.medhe.in",
@@ -27,40 +28,32 @@ const slightlyDelayed = [
 const delayed = ["eduardconstantin.github.io", "ehsanrafee.ir"];
 // default 8.5 s
 const extremelyDelayed = ["yudinkov.dev"];
-function sleep(time) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, time);
-  });
-}
-console.log(urls.length);
-console.log(names.length);
+console.log("Names:", names.length);
+console.log("Website URLs: ", urls.length);
+await sleep(3000);
 puppeteer
   .launch({
     defaultViewport: {
       width: 1920,
       height: 1080,
     },
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
     executablePath:
       "C:\\Program Files\\BraveSoftware\\Brave-Browser-Beta\\Application\\brave.exe",
   })
   .then(async (browser) => {
     const page = await browser.newPage();
-    for (let i = 205; i < urls.length; i++) {
+    for (let i = 0; i < urls.length; i++) {
       console.time("goto");
       const url = urls[i];
-      const userName = names[i];
-      console.log(`| ${i + 1}/${urls.length} | ${url} | ${userName} |`);
+      const name = names[i];
+      console.log(`| ${i + 1}/${urls.length} | ${url} | ${name} |`);
 
-      const urlName = url
-        .replace(/http.*\/\//g, "")
-        .replace(/\//g, "_")
-        .toLowerCase();
-      const path = `screenshots/${urlName}-${userName
-        .replace(/ /g, "_")
-        .toLowerCase()}.png`;
+      const path = `screenshots/${parseUrlToScreenshotName(url, name)}`;
 
       if (existsSync(path)) {
-        console.log(`Skipping ${urlName}-${userName}`);
+        console.log(`Skipping ${url} | ${name} |`);
         continue;
       }
       await page.goto(url, {
@@ -82,5 +75,3 @@ puppeteer
     }
     await browser.close();
   });
-
-// CHECKPOINT: Apr 23, 2024 280 300
