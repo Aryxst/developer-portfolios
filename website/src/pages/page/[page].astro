@@ -1,32 +1,28 @@
 ---
 import type { PaginateFunction } from 'astro';
+import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
-import { imports } from './index.astro';
-
+import Layout from 'src/layouts/Layout.astro';
 
 export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
- // Generate pages from our array of astronauts, with 2 to a page
- return paginate(imports, { pageSize: 20 });
+ const developers = await getCollection('developers');
+ return paginate(developers, { pageSize: 20 });
 }
-// All paginated data is passed on the "page" prop
 const { page } = Astro.props;
 ---
 
-<!--Display the current page number. Astro.params.page can also be used!-->
-<h1>Page {page.currentPage}</h1>
-<ul>
- {
-  page.data.map((image) => {
-
-   return (
-    <li>
-     <a href={image.metadata.url}>
-      <Image src={image.default} alt={`${image.metadata.name}'s Website}`} width={720} />
-      <p>{image.metadata.name}</p>
-      <p>{image.metadata.tags}</p>
-     </a>
-    </li>
-   );
-  })
- }
-</ul>
+<Layout title={`Developer Portfolios - ${page.currentPage}`}>
+ <ul class='grid min-h-full w-screen grid-cols-[repeat(auto-fill,_minmax(340px,_1fr))] gap-4 p-4 lg:grid-cols-[repeat(auto-fill,_minmax(425px,_1fr))] xl:grid-cols-[repeat(auto-fill,_minmax(510px,_1fr))]'>
+  {
+   page.data.map((developer, i) => {
+    return (
+     <li class='border-2 border-black drop-shadow-xl'>
+      <a href={developer.data.url}>
+       <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot'`} width={developer.data.screenshot.width} quality={80} decoding='async' loading='lazy' format='webp' />
+      </a>
+     </li>
+    );
+   })
+  }
+ </ul>
+</Layout>

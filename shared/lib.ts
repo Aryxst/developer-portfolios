@@ -27,4 +27,4 @@ function chunkify<T>(array: Array<T>, n: number): Array<Array<T>> {
  return chunks;
 }
 
-export { normalizeUrl, parseUrlToScreenshotName, sleep, chunkify };
+export { normalizeName, normalizeUrl, parseUrlToScreenshotName, sleep, chunkify };

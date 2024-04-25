@@ -4,12 +4,12 @@ import urls from '../website/src/data/urls.json';
 import { joinStacksName } from '../webscraper/src/lib/render/defines';
 import { rawStack } from '../webscraper/src/namings';
 
-let data = Bun.file('webscraper/result.json');
+const data = Bun.file('webscraper/result.json');
 if (!(await data.exists())) {
  console.log('Please run webscraper first');
  process.exit(1);
 }
-data = await data.json();
+const json = await data.json();
 Bun.write(
  'website/src/data/en.json',
  JSON.stringify(
@@ -19,8 +19,8 @@ Bun.write(
    return {
     name,
     url,
-    screenshot: `${parseUrlToScreenshotName(url, name)}`,
-    tags: joinStacksName(data[index][4] as rawStack[]),
+    screenshot: parseUrlToScreenshotName(url, name),
+    tags: joinStacksName(json[index][4] as rawStack[]).split(', '),
    };
   })
  )
