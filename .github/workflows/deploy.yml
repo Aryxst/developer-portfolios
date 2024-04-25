@@ -9,9 +9,7 @@ permissions:
  contents: read
  pages: write
  id-token: write
-defaults:
- run:
-  working-directory: ./website
+
 jobs:
  build:
   runs-on: ubuntu-latest
@@ -21,7 +19,7 @@ jobs:
    - name: Install, build, and upload your site output
      uses: withastro/action@v2
      with:
-      package-manager: bun
+      path: ./website
 
  deploy:
   needs: build
