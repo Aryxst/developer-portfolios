@@ -3,7 +3,9 @@
  "compilerOptions": {
   "baseUrl": ".",
   "paths": {
-   "@screenshots/*": ["src/assets/screenshots/*"]
+   "@screenshots/*": ["src/assets/screenshots/*"],
+   "@/*": ["src/*"],
+
   }
  }
 }

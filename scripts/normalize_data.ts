@@ -1,7 +1,6 @@
 import { parseUrlToScreenshotName } from '../shared/lib';
 import names from '../website/src/data/names.json';
 import urls from '../website/src/data/urls.json';
-import { joinStacksName } from '../webscraper/src/lib/render/defines';
 import { rawStack } from '../webscraper/src/namings';
 
 const data = Bun.file('webscraper/result.json');
@@ -20,8 +19,8 @@ Bun.write(
     name,
     url,
     screenshot: parseUrlToScreenshotName(url, name),
-    tags: joinStacksName(json[index][4] as rawStack[]).split(', '),
+    tags: json[index][4],
    };
-  })
- )
+  }),
+ ),
 );

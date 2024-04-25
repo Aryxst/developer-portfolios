@@ -17,8 +17,8 @@ for (const developer of json) {
   JSON.stringify({
    name: developer.name,
    url: developer.url,
-   screenshot: `@screenshots/${screenshotName}`,
-   tags: developer.tags.split(', '),
-  })
+   screenshot: `@/assets/screenshots/${screenshotName}`,
+   tags: developer.tags,
+  }),
  );
 }
