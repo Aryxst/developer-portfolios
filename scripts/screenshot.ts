@@ -30,7 +30,7 @@ puppeteer
    const name = names[i];
    console.log(`| ${i}/${urls.length} | ${url} | ${name} |`);
 
-   const path = `website/src/assets/screenshots/${i}-${parseUrlToScreenshotName(url, name)}`;
+   const path = `website/src/assets/screenshots/${parseUrlToScreenshotName(url, name)}`;
 
    if (existsSync(path)) {
     console.log(`Skipping ${url} | ${name} |`);

@@ -19,7 +19,7 @@ Bun.write(
    return {
     name,
     url,
-    screenshot: `${index}-${parseUrlToScreenshotName(url, name)}`,
+    screenshot: `${parseUrlToScreenshotName(url, name)}`,
     tags: joinStacksName(data[index][4] as rawStack[]),
    };
   })
