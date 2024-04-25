@@ -28,9 +28,9 @@ puppeteer
    console.time('goto');
    const url = urls[i];
    const name = names[i];
-   console.log(`| ${i + 1}/${urls.length} | ${url} | ${name} |`);
+   console.log(`| ${i}/${urls.length} | ${url} | ${name} |`);
 
-   const path = `website/src/assets/screenshots/${parseUrlToScreenshotName(url, name)}`;
+   const path = `website/src/assets/screenshots/${i}-${parseUrlToScreenshotName(url, name)}`;
 
    if (existsSync(path)) {
     console.log(`Skipping ${url} | ${name} |`);
