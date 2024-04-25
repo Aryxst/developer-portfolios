@@ -16,6 +16,15 @@ jobs:
   steps:
    - name: Checkout your repository using git
      uses: actions/checkout@v4
+   - name: Install Bun and root dependencies
+     uses: oven-sh/setup-bun@v1
+     with:
+      bun-version: latest
+   - run: |
+      bun install
+      cd webscraper
+      bun install
+      cd ..
    - name: Install, build, and upload your site output
      uses: withastro/action@v2
      with:
