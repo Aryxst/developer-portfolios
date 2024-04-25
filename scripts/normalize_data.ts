@@ -1,29 +1,27 @@
-import names from "../data/names.json";
-import urls from "../data/urls.json";
-import { parseUrlToScreenshotName } from "../shared/lib";
+import { parseUrlToScreenshotName } from '../shared/lib';
+import names from '../website/src/data/names.json';
+import urls from '../website/src/data/urls.json';
+import { joinStacksName } from '../webscraper/src/lib/render/defines';
+import { rawStack } from '../webscraper/src/namings';
 
-import { joinStacksName } from "../webscraper/src/lib/render/defines";
-import type { rawStack } from "../webscraper/src/namings";
-import type { RequestResult } from "../webscraper/src/worker";
-
-if (!(await Bun.file("webscraper/result.json").exists())) {
-  console.log("Please run webscraper first");
-  process.exit(1);
+let data = Bun.file('webscraper/result.json');
+if (!(await data.exists())) {
+ console.log('Please run webscraper first');
+ process.exit(1);
 }
-const data = (await import("../webscraper/result.json"))
-  .default as RequestResult[];
-
+data = await data.json();
 Bun.write(
-  "./data/en.json",
-  JSON.stringify(
-    names.map((name, index) => {
-      const url = urls[index];
-      return {
-        name,
-        url,
-        screenshot: `screenshots/${parseUrlToScreenshotName(url, name)}`,
-        tags: joinStacksName(data[index][4] as rawStack[]),
-      };
-    })
-  )
+ 'website/src/data/en.json',
+ JSON.stringify(
+  names.map((name, index) => {
+   const url = urls[index];
+   console.log(url);
+   return {
+    name,
+    url,
+    screenshot: parseUrlToScreenshotName(url, name),
+    tags: joinStacksName(data[index][4] as rawStack[]),
+   };
+  })
+ )
 );

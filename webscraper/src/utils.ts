@@ -3,13 +3,6 @@ function countLineBreaks(str: string) {
  const matches = str.match(regex);
  return matches ? matches.length : 0;
 }
-function chunkify(array: any[], n: number) {
- let chunks = [];
- for (let i = n; i > 0; i--) {
-  chunks.push(array.splice(0, Math.ceil(array.length / i)));
- }
- return chunks;
-}
 function size(bytes: number) {
  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
  if (bytes === 0) return '0 Byte';
@@ -28,4 +21,4 @@ function parseUrl(src: string, origin: string) {
  return `${origin}/${src}`;
 }
 
-export { size, countLineBreaks, chunkify, parseUrl };
+export { size, countLineBreaks, parseUrl };

@@ -1,0 +1,32 @@
+---
+import type { PaginateFunction } from 'astro';
+import { Image } from 'astro:assets';
+import { imports } from './index.astro';
+
+
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
+ // Generate pages from our array of astronauts, with 2 to a page
+ return paginate(imports, { pageSize: 20 });
+}
+// All paginated data is passed on the "page" prop
+const { page } = Astro.props;
+---
+
+<!--Display the current page number. Astro.params.page can also be used!-->
+<h1>Page {page.currentPage}</h1>
+<ul>
+ {
+  page.data.map((image) => {
+
+   return (
+    <li>
+     <a href={image.metadata.url}>
+      <Image src={image.default} alt={`${image.metadata.name}'s Website}`} width={720} />
+      <p>{image.metadata.name}</p>
+      <p>{image.metadata.tags}</p>
+     </a>
+    </li>
+   );
+  })
+ }
+</ul>

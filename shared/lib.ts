@@ -1,17 +1,30 @@
 function normalizeUrl(url: string) {
-  return url
-    .replace(/http.*\/\//g, "")
-    .replace("?", ",")
-    .replace(/\//g, "_")
-    .toLowerCase();
+ return url
+  .replace(/http.*\/\//g, '')
+  .replace('?', ',')
+  .replace(/\//g, '_')
+  .toLowerCase();
+}
+function normalizeName(name: string) {
+ return name.replace(/[éè]/g, 'e').replace(/[à]/g, 'a').replace(/ì/g, 'i').replace(/ /g, '_').toLowerCase();
 }
 function parseUrlToScreenshotName(url: string, name: string) {
-  return `${normalizeUrl(url)}-${name.replace(/ /g, "_").toLowerCase()}.png`;
+ const normalizedUrl = normalizeUrl(url);
+ const normalizedName = normalizeName(name);
+ return `${normalizedUrl}-${normalizedName}.png`;
 }
 
 function sleep(time: number) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, time);
-  });
+ return new Promise(function (resolve) {
+  setTimeout(resolve, time);
+ });
 }
-export { normalizeUrl, parseUrlToScreenshotName, sleep };
+function chunkify<T>(array: Array<T>, n: number): Array<Array<T>> {
+ let chunks: Array<Array<T>> = [];
+ for (let i = n; i > 0; i--) {
+  chunks.push(array.splice(0, Math.ceil(array.length / i)));
+ }
+ return chunks;
+}
+
+export { normalizeUrl, parseUrlToScreenshotName, sleep, chunkify };

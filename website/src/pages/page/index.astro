@@ -1,0 +1,33 @@
+---
+import { chunkify } from '../../../../shared/lib';
+import metadata from '../../data/en.json';
+export const glob = (await Astro.glob('../../assets/screenshots/*.png')) as Array<{ default: ImageMetadata }>;
+export const imports = glob.map((image, index) => {
+ const meta = metadata[index];
+ return ({ default: glob.find((item) => item.default.src.includes(meta.screenshot))?.default, metadata: meta });
+}) as Array<{ default: ImageMetadata, metadata: { name: string, url: string, tags: string } }>;
+
+const chunks = chunkify(imports, imports.length / 20);
+---
+
+<h1>Image Chunks</h1>
+<ol>
+ {
+  chunks.map((chunk) => (
+   <li>
+    <details>
+     <>
+      <summary>{chunk.length}</summary>
+      <ul>
+       {chunk.map((image) => (
+        <li>{JSON.stringify(image)}</li>
+       ))}
+      </ul>
+     </>
+    </details>
+   </li>
+  ))
+ }
+</ol>
+
+<pre>{JSON.stringify(chunks, null, 2)}</pre>

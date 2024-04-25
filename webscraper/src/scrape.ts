@@ -1,7 +1,7 @@
 import os from 'os';
 import log from './lib/log';
-import { chunkify } from './utils';
-import urls from '../../data/urls.json';
+import { chunkify } from '../../shared/lib';
+import urls from '../../website/src/data/urls.json';
 import type { RequestResult } from './worker';
 
 console.clear();
