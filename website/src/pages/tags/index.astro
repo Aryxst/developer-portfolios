@@ -10,7 +10,7 @@ const vanillas = developers.filter(developer => !developer.data.tags.length);
 ---
 
 <Layout title={`Developer Portfolios | Tags`}>
- <ul class='flex flex-row flex-wrap gap-x-2 gap-y-3 border-t-2 border-black p-4 text-gray-700'>
+ <ul class='flex flex-row flex-wrap gap-x-2 gap-y-3 p-4 text-gray-700'>
   {
    getStacksName(stacks as rawStack[]).map((tag, i) => (
     <li class='flex rounded-full bg-gray-200 px-2 py-1 font-semibold'>
