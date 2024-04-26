@@ -3,7 +3,7 @@ import type { PaginateFunction } from 'astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
-import { joinStacksName } from '../../../../webscraper/src/lib/render/defines';
+import { joinStacksName } from '../../../../shared/lib';
 import { type rawStack } from '../../../../webscraper/src/namings';
 
 export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
@@ -22,12 +22,21 @@ const { page } = Astro.props;
       <a href={developer.data.url}>
        <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot'`} width={developer.data.screenshot.width} quality={80} decoding='async' loading='lazy' format='webp' transition:name='screenshot' />
       </a>
-      <div class='z-10 space-y-1 border-t-2 border-black bg-white p-1'>
-       {(developer.data.tags[0] &&
+      <ul class='z-10 flex flex-row flex-wrap gap-x-1 gap-y-2 border-t-2 border-black p-2'>
+       {developer.data.tags[0] ? (
         joinStacksName(developer.data.tags as rawStack[])
          .split(', ')
-         .map(tag => <span class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>#{tag}</span>)) || <span class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>Vanilla</span>}
-      </div>
+         .map(tag => (
+          <li class='inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>
+           <a href={`/tags/${tag}`}>#{tag}</a>
+          </li>
+         ))
+       ) : (
+        <li class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>
+         <a href='/tags/vanilla'>Vanilla</a>
+        </li>
+       )}
+      </ul>
      </li>
     );
    })

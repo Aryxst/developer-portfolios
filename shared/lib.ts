@@ -1,3 +1,4 @@
+import namings, { type rawStack } from '../webscraper/src/namings';
 function normalizeUrl(url: string) {
  return url
   .replace(/http.*\/\//g, '')
@@ -26,5 +27,7 @@ function chunkify<T>(array: Array<T>, n: number): Array<Array<T>> {
  }
  return chunks;
 }
-
-export { normalizeName, normalizeUrl, parseUrlToScreenshotName, sleep, chunkify };
+function joinStacksName(stacks: Array<rawStack>) {
+ return stacks.map(s => namings[s].name).join(', ');
+}
+export { normalizeName, normalizeUrl, parseUrlToScreenshotName, sleep, chunkify, joinStacksName };

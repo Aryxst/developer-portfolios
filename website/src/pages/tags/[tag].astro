@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '@/layouts/Layout.astro';
+import { joinStacksName } from '../../../../shared/lib';
+import { regexps, type rawStack } from '../../../../webscraper/src/namings';
+export async function getStaticPaths() {
+ const developers = await getCollection('developers');
+ const stacks = Object.keys(regexps).filter(stack => developers.some(developer => developer.data.tags.includes(stack))) as rawStack[];
+ const paths = stacks.map(tag => ({ params: { tag }, props: { developers: developers.filter(developer => developer.data.tags.includes(tag)), tag } }));
+ const vanillas = developers.filter(developer => !developer.data.tags.length);
+ // TODO: Add vanilla tag to /webscraper, THIS ISN't TYPE SAFE
+ if (vanillas.length) paths.push({ params: { tag: 'vanilla' as any }, props: { developers: vanillas, tag: 'vanilla' as any } });
+ return paths;
+}
+const { developers, tag } = Astro.props;
+---
+
+<Layout title={`Developer Portfolios - Tag: ${tag}`}>
+ {
+  (
+   <ul class='grid min-h-full w-screen grid-cols-[repeat(auto-fill,_minmax(340px,_1fr))] gap-4 p-4 lg:grid-cols-[repeat(auto-fill,_minmax(425px,_1fr))] xl:grid-cols-[repeat(auto-fill,_minmax(510px,_1fr))]'>
+    {developers.map(developer => {
+     return (
+      <li class='border-2 border-black bg-white drop-shadow-xl'>
+       <a href={developer.data.url}>
+        <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot'`} width={developer.data.screenshot.width} quality={80} decoding='async' loading='lazy' format='webp' transition:name='screenshot' />
+       </a>
+       <div class='z-10 space-y-1 border-t-2 border-black bg-white p-1'>
+        {(developer.data.tags[0] &&
+         joinStacksName(developer.data.tags as rawStack[])
+          .split(', ')
+          .map(tag => <span class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>#{tag}</span>)) || <span class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>Vanilla</span>}
+       </div>
+      </li>
+     );
+    })}
+   </ul>
+  )
+ }
+</Layout>
