@@ -6,5 +6,6 @@ import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
   integrations: [astroDevOnlyRoutes(), tailwind(), sitemap()],
-  site: "https://aryxst.github.io/developer-portfolios", 
+  site: "https://aryxst.github.io", 
+  base: "developer-portfolios"
 });
