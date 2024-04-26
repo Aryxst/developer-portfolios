@@ -1,7 +1,8 @@
 export const regexps = {
  next: [/_next/],
  googlefonts: [/fonts\.googleapis\.com/, /fonts\.gstatic\.com/],
- tailwindcss: [/MIT License | https:\/\/tailwindcss\.com/, /--tw-/],
+ tailwindcss: [/MIT License \| https:\/\/tailwindcss\.com/, /--tw-/],
+ bulmacss: [/bulma.io .* \| MIT License \| github.com\/jgthms\/bulma/],
  lenis: [/lenis/],
  cloudinary: [/res\.cloudinary\.com/],
  fontawesome: [/\/fontawesome/],
@@ -100,4 +101,5 @@ export default {
  cdnjs: { name: 'cdnjs' },
  googlemaps: { name: 'Google Maps' },
  sweetalert: { name: 'SweetAlert' },
+ bulmacss: { name: 'Bulma CSS' },
 } satisfies Record<rawStack, { name: string; icon?: string }>;

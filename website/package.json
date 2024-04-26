@@ -16,7 +16,8 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "expose": "ssh -R jessieodeh:80:localhost:4321 serveo.net"
   },
   "type": "module"
 }
