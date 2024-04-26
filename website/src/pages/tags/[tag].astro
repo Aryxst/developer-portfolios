@@ -2,8 +2,10 @@
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
-import { joinStacksName } from '../../../../shared/lib';
-import { regexps, type rawStack } from '../../../../webscraper/src/namings';
+import { getStacksName } from '@root/shared/lib';
+import { regexps, type rawStack } from '@root/webscraper/src/namings';
+import { href } from '@/utils';
+
 export async function getStaticPaths() {
  const developers = await getCollection('developers');
  const stacks = Object.keys(regexps).filter(stack => developers.some(developer => developer.data.tags.includes(stack))) as rawStack[];
@@ -16,25 +18,34 @@ export async function getStaticPaths() {
 const { developers, tag } = Astro.props;
 ---
 
-<Layout title={`Developer Portfolios - Tag: ${tag}`}>
+<Layout title={`Developer Portfolios | Tag: ${tag}`}>
  {
   (
    <ul class='grid min-h-full w-screen grid-cols-[repeat(auto-fill,_minmax(340px,_1fr))] gap-4 p-4 lg:grid-cols-[repeat(auto-fill,_minmax(425px,_1fr))] xl:grid-cols-[repeat(auto-fill,_minmax(510px,_1fr))]'>
-    {developers.map(developer => {
-     return (
-      <li class='border-2 border-black bg-white drop-shadow-xl'>
-       <a href={developer.data.url}>
-        <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot'`} width={developer.data.screenshot.width} quality={80} decoding='async' loading='lazy' format='webp' transition:name='screenshot' />
-       </a>
-       <div class='z-10 space-y-1 border-t-2 border-black bg-white p-1'>
-        {(developer.data.tags[0] &&
-         joinStacksName(developer.data.tags as rawStack[])
-          .split(', ')
-          .map(tag => <span class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>#{tag}</span>)) || <span class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>Vanilla</span>}
-       </div>
-      </li>
-     );
-    })}
+    {developers
+     .sort((a, b) => b.data.tags.length - a.data.tags.length)
+     .map(developer => {
+      return (
+       <li class='border-2 border-black bg-white drop-shadow-xl'>
+        <a href={developer.data.url}>
+         <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot'`} width={developer.data.screenshot.width} quality={80} decoding='async' loading='eager' format='webp' transition:name='screenshot' />
+        </a>
+        <ul class='z-10 flex flex-row flex-wrap gap-x-1 gap-y-2 border-t-2 border-black p-2'>
+         {developer.data.tags[0] ? (
+          getStacksName(developer.data.tags as rawStack[]).map((tag, i) => (
+           <li class='inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>
+            <a href={href(`/tags/${developer.data.tags[i]}`)}>#{tag}</a>
+           </li>
+          ))
+         ) : (
+          <li class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>
+           <a href={href('/tags/vanilla')}>Vanilla</a>
+          </li>
+         )}
+        </ul>
+       </li>
+      );
+     })}
    </ul>
   )
  }

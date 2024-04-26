@@ -1,15 +1,14 @@
 name: Deploy to GitHub Pages
 
 on:
- push:
-  branches: [master]
  workflow_dispatch:
 
 permissions:
  contents: read
  pages: write
  id-token: write
-
+env:
+ NODE_ENV: PRODUCTION
 jobs:
  build:
   runs-on: ubuntu-latest
@@ -24,7 +23,10 @@ jobs:
       bun install
       cd webscraper
       bun install
+      bun start
       cd ..
+      bun scripts/normalize_data.ts
+      bun scripts/pipe_developers_json.ts
    - name: Install, build, and upload your site output
      uses: withastro/action@v2
      with:

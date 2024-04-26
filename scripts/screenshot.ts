@@ -1,6 +1,5 @@
 import puppeteer from 'puppeteer';
-import urls from '../website/src/data/urls.json';
-import names from '../website/src/data/names.json';
+import raw from '../website/src/data/raw.json';
 import { existsSync } from 'node:fs';
 import { parseUrlToScreenshotName, sleep } from '../shared/lib';
 // default 2 s
@@ -9,8 +8,7 @@ const slightlyDelayed = ['https://aditya.medhe.in', 'https://abdulrahman.id', 'h
 const delayed = ['eduardconstantin.github.io', 'ehsanrafee.ir'];
 // default 8.5 s
 const extremelyDelayed = ['yudinkov.dev'];
-console.log('Names:', names.length);
-console.log('Website URLs: ', urls.length);
+console.log('Developers(Name and URL):', raw.length);
 await sleep(3000);
 
 puppeteer
@@ -22,13 +20,12 @@ puppeteer
   headless: true,
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
  })
- .then(async (browser) => {
+ .then(async browser => {
   const page = await browser.newPage();
-  for (let i = 0; i < urls.length; i++) {
+  for (let i = 0; i < raw.length; i++) {
+   const { url, name } = raw[i];
    console.time('goto');
-   const url = urls[i];
-   const name = names[i];
-   console.log(`| ${i}/${urls.length} | ${url} | ${name} |`);
+   console.log(`| ${i + 1}/${raw.length} | ${url} | ${name} |`);
 
    const path = `website/src/assets/screenshots/${parseUrlToScreenshotName(url, name)}`;
 
@@ -36,6 +33,7 @@ puppeteer
     console.log(`Skipping ${url} | ${name} |`);
     continue;
    }
+
    await page.goto(url, {
     // Wait for the network layer to be empty for at least 500ms
     waitUntil: 'networkidle0',
@@ -45,5 +43,6 @@ puppeteer
    await page.screenshot({ path, optimizeForSpeed: true });
    console.timeEnd('goto');
   }
+
   await browser.close();
  });

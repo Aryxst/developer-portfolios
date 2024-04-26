@@ -1,6 +1,6 @@
 import { filters, getConfig } from 'squirrelly';
 import { size } from '../../utils';
-import { joinStacksName } from '../../../../shared/lib';
+import { getStacksName } from '../../../../shared/lib';
 getConfig({
  cache: false,
 });
@@ -13,4 +13,6 @@ filters.define('defRatio', (booleans: Array<boolean>) => booleans.filter(x => x)
 filters.define('percentage', (number: number) => Math.round(number * 100));
 filters.define('size', size);
 // Project specific filters
-filters.define('joinStacksName', joinStacksName);
+filters.define('joinStacksName', function (arr: Array<string>) {
+ return getStacksName(arr).join(', ');
+});

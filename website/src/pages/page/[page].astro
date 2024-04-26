@@ -3,43 +3,65 @@ import type { PaginateFunction } from 'astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
-import { joinStacksName } from '../../../../shared/lib';
-import { type rawStack } from '../../../../webscraper/src/namings';
+import { href } from '@/utils';
+import { getStacksName } from '@root/shared/lib';
+import { type rawStack } from '@root/webscraper/src/namings';
 
 export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
  const developers = await getCollection('developers');
- return paginate(developers, { pageSize: 20 });
+ return paginate(developers, { pageSize: 30 });
 }
 const { page } = Astro.props;
 ---
 
-<Layout title={`Developer Portfolios - ${page.currentPage}`}>
+<Layout title={`Developer Portfolios | Page ${page.currentPage}/${page.lastPage}`}>
  <ul class='grid min-h-full w-screen grid-cols-[repeat(auto-fill,_minmax(340px,_1fr))] gap-4 p-4 lg:grid-cols-[repeat(auto-fill,_minmax(425px,_1fr))] xl:grid-cols-[repeat(auto-fill,_minmax(510px,_1fr))]'>
   {
-   page.data.map(developer => {
-    return (
-     <li class='border-2 border-black bg-white drop-shadow-xl'>
-      <a href={developer.data.url}>
-       <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot'`} width={developer.data.screenshot.width} quality={80} decoding='async' loading='lazy' format='webp' transition:name='screenshot' />
-      </a>
-      <ul class='z-10 flex flex-row flex-wrap gap-x-1 gap-y-2 border-t-2 border-black p-2'>
-       {developer.data.tags[0] ? (
-        joinStacksName(developer.data.tags as rawStack[])
-         .split(', ')
-         .map(tag => (
+   page.data
+    .sort((a, b) => b.data.tags.length - a.data.tags.length)
+    .map(developer => {
+     return (
+      <li class='border-2 border-black bg-white drop-shadow-xl'>
+       <a href={developer.data.url}>
+        <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot'`} width={developer.data.screenshot.width} quality={80} decoding='async' loading='eager' format='webp' transition:name='screenshot' />
+       </a>
+       <ul class='z-10 flex flex-row flex-wrap gap-x-1 gap-y-2 border-t-2 border-black p-2'>
+        {developer.data.tags[0] ? (
+         getStacksName(developer.data.tags as rawStack[]).map((tag, i) => (
           <li class='inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>
-           <a href={`/tags/${tag}`}>#{tag}</a>
+           <a href={href(`/tags/${developer.data.tags[i]}`)}>#{tag}</a>
           </li>
          ))
-       ) : (
-        <li class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>
-         <a href='/tags/vanilla'>Vanilla</a>
-        </li>
-       )}
-      </ul>
-     </li>
-    );
-   })
+        ) : (
+         <li class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>
+          <a href={href('/tags/vanilla')}>Vanilla</a>
+         </li>
+        )}
+       </ul>
+      </li>
+     );
+    })
   }
  </ul>
+
+ <div class='mt-4 flex justify-center'>
+  <!-- Previous Button -->
+  <a href={href(page.url.prev || page.url.current)} class='me-3 flex h-10 items-center justify-center rounded-lg border border-gray-300 bg-white px-4 text-base font-medium data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:text-gray-400' data-disabled={!page.url.prev}>
+   <svg class='me-2 h-3.5 w-3.5 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'>
+    <path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 5H1m0 0 4 4M1 5l4-4'></path>
+   </svg>
+   Previous
+  </a>
+  <a href={href(page.url.next || page.url.current)} class='me-3 flex h-10 items-center justify-center rounded-lg border border-gray-300 bg-white px-4 text-base font-medium data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:text-gray-400' data-disabled={!page.url.next}>
+   Next
+   <svg class='ms-2 h-3.5 w-3.5 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'>
+    <path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M1 5h12m0 0L9 1m4 4L9 9'></path>
+   </svg>
+  </a>
+ </div>
 </Layout>
+<style>
+ body {
+  padding-bottom: 2em;
+ }
+</style>

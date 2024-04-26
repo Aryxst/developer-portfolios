@@ -1,28 +1,27 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import { joinStacksName } from '../../../../shared/lib';
-import { regexps, type rawStack } from '../../../../webscraper/src/namings';
+import { href } from '@/utils';
+import { getStacksName } from '@root/shared/lib';
+import { regexps, type rawStack } from '@root/webscraper/src/namings';
 import { getCollection } from 'astro:content';
 const developers = await getCollection('developers');
 const stacks = Object.keys(regexps).filter(stack => developers.some(developer => developer.data.tags.includes(stack))) as rawStack[];
 const vanillas = developers.filter(developer => !developer.data.tags.length);
 ---
 
-<Layout title={`Developer Portfolios - Tags`}>
+<Layout title={`Developer Portfolios | Tags`}>
  <ul class='flex flex-row flex-wrap gap-2 p-4'>
   {
-   joinStacksName(stacks)
-    .split(', ')
-    .map((tag, i) => (
-     <li class='rounded-full bg-gray-200 px-2 py-1 font-semibold text-gray-700'>
-      <a href={`/tags/${stacks[i]}`}>{tag}</a>
-     </li>
-    ))
+   getStacksName(stacks as rawStack[]).map((tag, i) => (
+    <li class='rounded-full bg-gray-200 px-2 py-1 font-semibold text-gray-700'>
+     <a href={href(`/tags/${stacks[i]}`)}>{tag}</a>
+    </li>
+   ))
   }
   {
    vanillas.length && (
     <li class='rounded-full bg-gray-200 px-2 py-1 font-semibold text-gray-700'>
-     <a href='/tags/vanilla'>Vanilla</a>
+     <a href={href('/tags/vanilla')}>Vanilla</a>
     </li>
    )
   }

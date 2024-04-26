@@ -14,7 +14,6 @@ function parseUrlToScreenshotName(url: string, name: string) {
  const normalizedName = normalizeName(name);
  return `${normalizedUrl}-${normalizedName}.png`;
 }
-
 function sleep(time: number) {
  return new Promise(function (resolve) {
   setTimeout(resolve, time);
@@ -27,7 +26,7 @@ function chunkify<T>(array: Array<T>, n: number): Array<Array<T>> {
  }
  return chunks;
 }
-function joinStacksName(stacks: Array<rawStack>) {
- return stacks.map(s => namings[s].name).join(', ');
+function getStacksName(stacks: Array<rawStack>) {
+ return stacks.map(s => namings[s].name);
 }
-export { normalizeName, normalizeUrl, parseUrlToScreenshotName, sleep, chunkify, joinStacksName };
+export { normalizeName, normalizeUrl, parseUrlToScreenshotName, sleep, chunkify, getStacksName };

@@ -1,6 +1,5 @@
 import { parseUrlToScreenshotName } from '../shared/lib';
-import names from '../website/src/data/names.json';
-import urls from '../website/src/data/urls.json';
+import raw from '../website/src/data/raw.json';
 
 const file = Bun.file('webscraper/result.json');
 if (!(await file.exists())) {
@@ -11,9 +10,7 @@ const json = await file.json();
 Bun.write(
  'website/src/data/en.json',
  JSON.stringify(
-  names.map((name, index) => {
-   const url = urls[index];
-   console.log(url);
+  raw.map(({ name, url }) => {
    return {
     name,
     url,

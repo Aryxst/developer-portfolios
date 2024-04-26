@@ -1,7 +1,12 @@
+---
+import { href } from '@/utils';
+---
+
 <nav>
  <ul class='flex h-12 items-center justify-center gap-4 border-b-2 p-4 shadow-sm'>
-  <li><a href='/page/1'>home</a></li>|
-  <li><a href='/tags'>tags</a></li>|
-  <li><a href='/credits'>credits</a></li>
+  <li class='hover:underline'><a href={href('/')}>home</a></li>|
+  <li class='hover:underline'><a href={href('/page/1')}>browse</a></li>|
+  <li class='hover:underline'><a href={href('/tags')}>tags</a></li>|
+  <li class='hover:underline'><a href={href('/credits')}>credits</a></li>
  </ul>
 </nav>
