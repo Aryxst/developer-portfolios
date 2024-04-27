@@ -25,6 +25,7 @@ jobs:
       bun install
       bun start
       cd ..
+      bun scripts/sort_raw_data.ts
       bun scripts/normalize_data.ts
       bun scripts/pipe_developers_json.ts
    - name: Install, build, and upload your site output

@@ -1,0 +1,10 @@
+---
+import { tv, type VariantProps } from 'tailwind-variants';
+
+export const buttonStyles = tv({
+ base: 'flex h-10 items-center justify-center rounded-lg border border-gray-300 bg-white px-4 text-base font-medium data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:text-gray-400',
+});
+export type ButtonProps = VariantProps<typeof buttonStyles>;
+---
+
+<button><slot /></button>

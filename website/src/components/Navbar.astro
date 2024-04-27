@@ -2,11 +2,10 @@
 import { href } from '@/utils';
 ---
 
-<nav>
- <ul class='flex h-12 items-center justify-center gap-4 border-b-2 p-4 shadow-sm'>
+<nav class='py-4 shadow'>
+ <ul class='mx-auto flex max-w-screen-xl items-center justify-center gap-x-4'>
   <li class='hover:underline'><a href={href('/')}>home</a></li>|
   <li class='hover:underline'><a href={href('/page/1')}>browse</a></li>|
   <li class='hover:underline'><a href={href('/tags')}>tags</a></li>|
-  <li class='hover:underline'><a href={href('/credits')}>credits</a></li>
  </ul>
 </nav>

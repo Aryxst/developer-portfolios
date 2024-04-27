@@ -1,10 +1,11 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-import { href } from '@/utils';
 import { getStacksName } from '@root/shared/lib';
 import { regexps, type rawStack } from '@root/webscraper/src/namings';
-import { getCollection } from 'astro:content';
 const developers = await getCollection('developers');
+import { href } from '@/utils';
+
 const stacks = Object.keys(regexps).filter(stack => developers.some(developer => developer.data.tags.includes(stack))) as rawStack[];
 const vanillas = developers.filter(developer => !developer.data.tags.length);
 ---

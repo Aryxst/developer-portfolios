@@ -2,10 +2,12 @@
 import type { PaginateFunction } from 'astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
 import Layout from '@/layouts/Layout.astro';
-import { href } from '@/utils';
+import Link from '@/components/Link.astro';
 import { getStacksName } from '@root/shared/lib';
 import { type rawStack } from '@root/webscraper/src/namings';
+import { href } from '@/utils';
 
 export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
  const developers = await getCollection('developers');
@@ -46,22 +48,30 @@ const { page } = Astro.props;
 
  <div class='mt-4 flex justify-center'>
   <!-- Previous Button -->
-  <a href={href(page.url.prev || page.url.current)} class='me-3 flex h-10 items-center justify-center rounded-lg border border-gray-300 bg-white px-4 text-base font-medium data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:text-gray-400' data-disabled={!page.url.prev}>
-   <svg class='me-2 h-3.5 w-3.5 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'>
-    <path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 5H1m0 0 4 4M1 5l4-4'></path>
-   </svg>
+  <Link href={href(page.url.prev || page.url.current)} type='inlinepagenav' data-disabled={!page.url.prev}>
+   <Icon name='lucide:arrow-left' />
    Previous
-  </a>
-  <a href={href(page.url.next || page.url.current)} class='me-3 flex h-10 items-center justify-center rounded-lg border border-gray-300 bg-white px-4 text-base font-medium data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:text-gray-400' data-disabled={!page.url.next}>
+  </Link>
+  <form><input type='number' value={page.currentPage} max={page.lastPage} min='1' class='me-3 w-12 self-center rounded-lg border border-gray-300 py-2 text-center' /></form>
+  <Link href={href(page.url.next || page.url.current)} type='inlinepagenav' data-disabled={!page.url.next}>
    Next
-   <svg class='ms-2 h-3.5 w-3.5 rtl:rotate-180' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 14 10'>
-    <path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M1 5h12m0 0L9 1m4 4L9 9'></path>
-   </svg>
-  </a>
+   <Icon name='lucide:arrow-right' />
+  </Link>
  </div>
+
+ <style>
+  body {
+   padding-bottom: 2em;
+  }
+ </style>
 </Layout>
-<style>
- body {
-  padding-bottom: 2em;
- }
-</style>
+<script>
+ import { navigate } from 'astro:transitions/client';
+ import { href } from '@/utils';
+ document.querySelector('form')?.addEventListener('submit', (event: SubmitEvent) => {
+  event.preventDefault();
+  const target = event.target as HTMLFormElement;
+  const input = target.querySelector('input') as HTMLInputElement;
+  navigate(href(`/page/${input.value}`));
+ });
+</script>
