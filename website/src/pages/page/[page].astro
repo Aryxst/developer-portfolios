@@ -15,23 +15,22 @@ const { page } = Astro.props;
 ---
 
 <Layout title={`Developer Portfolios | Page ${page.currentPage}/${page.lastPage}`}>
- <div class='min-h-screen p-4' transition:animate='initial'><WebsiteCards developers={page.data.sort((a, b) => b.data.tags.length - a.data.tags.length)} /></div>
- <!-- Navigation Buttons -->
- <div class='mt-8 flex justify-center'>
-  <Link class='me-3' href={href(page.url.prev || page.url.current)} type='button' data-disabled={!page.url.prev}>
-   <Icon name='lucide:arrow-left' />
-   Previous
-  </Link>
-  <form class='me-3'>
-   <input type='number' value={page.currentPage} max={page.lastPage} min='1' class='h-10 w-12 self-center rounded-lg border border-gray-300 py-2 text-center' />
-  </form>
-  <Link href={href(page.url.next || page.url.current)} type='button' data-disabled={!page.url.next}>
-   Next
-   <Icon name='lucide:arrow-right' />
-  </Link>
+ <div class='min-h-screen p-4' transition:animate='none'>
+  <WebsiteCards developers={page.data.sort((a, b) => b.data.tags.length - a.data.tags.length)} />
+  <div class='mt-8 flex justify-center'>
+   <Link class='me-3' href={href(page.url.prev || page.url.current)} type='button' data-disabled={!page.url.prev}>
+    <Icon name='lucide:arrow-left' />
+   </Link>
+   <form class='me-3'>
+    <input type='number' value={page.currentPage} max={page.lastPage} min='1' class='h-10 w-12 self-center rounded-lg border border-gray-300 py-2 text-center' />
+   </form>
+   <Link href={href(page.url.next || page.url.current)} type='button' data-disabled={!page.url.next}>
+    <Icon name='lucide:arrow-right' />
+   </Link>
+  </div>
  </div>
+ <!-- Navigation Buttons -->
 </Layout>
-
 <script>
  import { navigate } from 'astro:transitions/client';
  import { href } from '@/utils';

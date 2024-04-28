@@ -35,8 +35,7 @@ const { title } = Astro.props;
   <meta name='msapplication-TileColor' content='#603cba' />
   <meta name='theme-color' content='#ffffff' />
   <script is:inline src='https://us.umami.is/script.js' data-website-id='92161264-2fa5-42d4-a932-51851f9790bc'></script>
-
-  <ViewTransitions />
+  <ViewTransitions fallback='swap' />
  </head>
  <body>
   <Navbar />
