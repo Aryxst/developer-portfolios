@@ -51,7 +51,7 @@ export const regexps = {
  googlemaps: [/maps\.googleapis\.com\/maps-api-/],
  katex: [/katex.*css/, /\.katex/],
  plausible: [/plausible\.io\/js\/plausible\.js/, /window\.plausible/, /nuxtjs\/plausible/],
- normalizecss: [/normalize.*css/, /normalize\.css .* \| MIT License \| git\.io\/normalize/],
+ normalizecss: [/normalize\.css .* \| MIT License/, /\/normalize.*css/],
  prism: [/prismjs.*\/prism.*\.js/, /global\.Prism/, /u\.Prism/],
 } as const;
 export const namings = {
