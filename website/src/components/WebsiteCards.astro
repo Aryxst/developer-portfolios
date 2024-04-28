@@ -18,7 +18,7 @@ const { developers } = Astro.props;
    .map(developer => (
     <li class='border-2 border-black bg-white drop-shadow-xl'>
      <a href={developer.data.url}>
-      <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot'`} width={1280 || developer.data.screenshot.width} quality={80} decoding='async' loading='eager' format='webp' />
+      <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot`} width={1280 || developer.data.screenshot.width} quality={80} decoding='async' loading='eager' format='webp' />
      </a>
      <ul class='z-10 flex flex-row flex-wrap gap-x-1 gap-y-2 border-t-2 border-black p-2'>
       {developer.data.tags[0] ? (

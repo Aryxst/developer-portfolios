@@ -7,7 +7,6 @@
     "astro": "astro",
     "build": "astro check && astro build",
     "dev": "astro dev",
-    "expose": "ssh -R jessieodeh:80:localhost:4321 serveo.net",
     "preview": "astro preview",
     "start": "astro dev"
   },
