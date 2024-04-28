@@ -1,18 +1,17 @@
 ---
-import { type HTMLAttributes } from 'astro/types';
 import { href } from '@/utils';
 import { namings, type rawStack } from '@root/webscraper/src/namings';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
-interface Props extends HTMLAttributes<'ul'> {
+type Props = {
  developers: CollectionEntry<'developers'>[];
-}
+};
 
-const { developers, ...attrs } = Astro.props;
+const { developers } = Astro.props;
 ---
 
-<ul class:list={['grid min-h-full w-full grid-cols-[repeat(auto-fill,_minmax(340px,_1fr))] gap-4 lg:grid-cols-[repeat(auto-fill,_minmax(425px,_1fr))] xl:grid-cols-[repeat(auto-fill,_minmax(510px,_1fr))]', attrs.class]} {...attrs}>
+<ul class='grid min-h-full w-full grid-cols-[repeat(auto-fill,_minmax(340px,_1fr))] gap-4 lg:grid-cols-[repeat(auto-fill,_minmax(425px,_1fr))] xl:grid-cols-[repeat(auto-fill,_minmax(510px,_1fr))]'>
  {
   developers
    .sort((a, b) => b.data.tags.length - a.data.tags.length)

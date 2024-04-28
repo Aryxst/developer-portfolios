@@ -15,7 +15,7 @@ const { developer } = Astro.props;
 <Layout title={`Developer Portfolios | ${developer.data.name}`}>
  <main class='flex min-h-screen w-screen flex-auto flex-col gap-4 p-4 md:flex-row'>
   <section class='w-full md:w-1/2'>
-   <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot`} width={developer.data.screenshot.width} quality={80} decoding='async' loading='lazy' format='webp' class='w-full rounded-lg border-2 border-black drop-shadow-xl' quality={80} decoding='async' loading='eager' format='webp' />
+   <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot`} width={developer.data.screenshot.width} quality={80} decoding='async' loading='lazy' format='webp' class='w-full rounded-lg border-2 border-black drop-shadow-xl' quality={80} decoding='async' loading='eager' format='webp' transition:name='screenshot' />
   </section>
   <section class='w-full md:w-1/2'>
    <Link href={developer.data.url} type='button'>Visit Website</Link>
