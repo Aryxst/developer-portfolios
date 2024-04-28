@@ -9,6 +9,7 @@ export const collections = {
     url: z.string().url(),
     screenshot: image(),
     tags: z.array(z.string()),
+    featured: z.boolean().optional(),
    }),
  }),
 };

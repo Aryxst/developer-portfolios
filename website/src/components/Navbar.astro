@@ -2,10 +2,11 @@
 import { href } from '@/utils';
 ---
 
-<nav class='py-4 shadow'>
+<nav class='bg-white py-4 shadow' transition:persist>
  <ul class='mx-auto flex max-w-screen-xl items-center justify-center gap-x-4'>
-  <li class='hover:underline'><a href={href('/')}>home</a></li>|
-  <li class='hover:underline'><a href={href('/page/1')}>browse</a></li>|
-  <li class='hover:underline'><a href={href('/tags')}>tags</a></li>|
+  <li><a href={href('/')}>home</a></li>|
+  <li><a href={href('/page/1')}>browse</a></li>|
+  <li><a href={href('/featured')}>featured</a></li>|
+  <li><a href={href('/tags')}>tags</a></li>
  </ul>
 </nav>

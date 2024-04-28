@@ -13,9 +13,9 @@ jobs:
  build:
   runs-on: ubuntu-latest
   steps:
-   - name: Checkout your repository using git
+   - name: Checkout
      uses: actions/checkout@v4
-   - name: Install Bun and root dependencies
+   - name: Install Bun and root dependencies, scrape data, and normalize it
      uses: oven-sh/setup-bun@v1
      with:
       bun-version: latest
@@ -28,7 +28,7 @@ jobs:
       bun scripts/sort_raw_data.ts
       bun scripts/normalize_data.ts
       bun scripts/pipe_developers_json.ts
-   - name: Install, build, and upload your site output
+   - name: Build, and upload site output
      uses: withastro/action@v2
      with:
       path: ./website

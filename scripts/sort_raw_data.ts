@@ -3,4 +3,4 @@ raw.sort((a, b) => {
  return a.name.localeCompare(b.name);
 });
 
-Bun.write('website/src/data/raw.json', JSON.stringify(raw, null, 2));
+Bun.write('website/src/data/raw.json', JSON.stringify(raw, null, 1));

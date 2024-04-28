@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import WebsiteCards from '@/components/WebsiteCards.astro';
+const developers = (await getCollection('developers')).filter(developer => developer.data.featured);
+---
+
+<Layout title='Developer Portfolios | Home'>
+ <div class='min-h-screen'>
+  {
+   developers.length ? (
+    <div class='p-4'>
+     <WebsiteCards {developers} />
+    </div>
+   ) : (
+    <p class='mt-4 text-center'>Nothing here :&lpar;</p>
+   )
+  }
+ </div>
+</Layout>

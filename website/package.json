@@ -1,26 +1,27 @@
 {
-  "name": "",
+  "name": "developer-portfolios",
+  "description": "Developer Portfolios Website",
+  "type": "module",
   "version": "0.0.1",
+  "scripts": {
+    "astro": "astro",
+    "build": "astro check && astro build",
+    "dev": "astro dev",
+    "expose": "ssh -R jessieodeh:80:localhost:4321 serveo.net",
+    "preview": "astro preview",
+    "start": "astro dev"
+  },
   "dependencies": {
     "@astrojs/check": "^0.5.10",
     "@astrojs/sitemap": "^3.1.4",
     "@astrojs/tailwind": "^5.1.0",
+    "@fontsource-variable/inter": "^5.0.18",
     "@iconify-json/lucide": "^1.1.185",
     "astro": "^4.6.4",
-    "astro-dev-only-routes": "^0.0.2",
     "astro-icon": "^1.1.0",
     "sharp": "^0.33.3",
     "tailwind-variants": "^0.2.1",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"
-  },
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "expose": "ssh -R jessieodeh:80:localhost:4321 serveo.net"
-  },
-  "type": "module"
+  }
 }

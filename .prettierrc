@@ -4,5 +4,14 @@
  "jsxSingleQuote": true,
  "printWidth": 600,
  "tabWidth": 1,
- "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"]
+ "htmlWhitespaceSensitivity": "ignore",
+ "plugins": ["prettier-plugin-astro", "prettier-plugin-organize-attributes", "prettier-plugin-tailwindcss", "prettier-plugin-pkg"],
+ "overrides": [
+  {
+   "files": ["*.astro"],
+   "options": {
+    "parser": "astro"
+   }
+  }
+ ]
 }

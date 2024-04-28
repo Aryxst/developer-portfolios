@@ -1,9 +1,14 @@
 {
- "type": "module",
- "dependencies": {
-  "@types/bun": "^1.1.0",
-  "prettier-plugin-astro": "^0.13.0",
-  "prettier-plugin-tailwindcss": "^0.5.14",
-  "puppeteer": "^22.7.0"
- }
+  "name": "developer-portfolios-config",
+  "description": "The configuration for both website and webscraper folders, also root of git repository",
+  "dependencies": {
+    "@types/bun": "^1.1.0",
+    "puppeteer": "^22.7.0"
+  },
+  "devDependencies": {
+    "prettier-plugin-astro": "^0.13.0",
+    "prettier-plugin-organize-attributes": "^1.0.0",
+    "prettier-plugin-pkg": "^0.18.1",
+    "prettier-plugin-tailwindcss": "^0.5.14"
+  }
 }

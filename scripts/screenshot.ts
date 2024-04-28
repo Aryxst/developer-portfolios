@@ -1,15 +1,30 @@
 import puppeteer from 'puppeteer';
 import raw from '../website/src/data/raw.json';
-import { existsSync } from 'node:fs';
-import { parseUrlToScreenshotName, sleep } from '../shared/lib';
-// default 2 s
-const slightlyDelayed = ['https://aditya.medhe.in', 'https://abdulrahman.id', 'https://aakash-sharma.netlify.app', 'https://austingericke.com', 'https://aayushkurup.dev', 'https://aayushkurup.dev', 'https://bharatdev.vercel.app', 'https://cade.codes', 'https://debasishdutta.is-a.dev', 'https://dhruvabhat.netlify.app', 'https://evander.vercel.app', 'https://ezekielekunola.com', 'https://pixeldania.netlify.app', 'https://portfolio-dhirajb7.vercel.app', 'https://gianlucagalota.dev', 'https://dragonwarrior.vercel.app', 'https://hemdev.vercel.app', 'https://shenggg2000.github.io/portfolio'];
-// default 5 s
-const delayed = ['eduardconstantin.github.io', 'ehsanrafee.ir'];
-// default 8.5 s
-const extremelyDelayed = ['yudinkov.dev'];
-console.log('Developers(Name and URL):', raw.length);
-await sleep(3000);
+import { existsSync, rmSync } from 'node:fs';
+import { normalizeUrl, parseUrlToScreenshotName } from '../shared/lib';
+
+console.clear();
+
+console.log('Deleting screenshots with no developer data bound to it before proceeding...\n\n');
+
+await Bun.sleep(3000);
+
+const screenshotGlob = new Bun.Glob('*.png'),
+ screenshotPath = 'website/src/assets/screenshots';
+
+const screenshots = Array.from(screenshotGlob.scanSync(screenshotPath));
+console.log(`Current screenshots: ${screenshots.length}\n\n`);
+
+screenshots.forEach(file => {
+ if (!raw.some(developer => file.includes(normalizeUrl(developer.url)))) {
+  console.log(`Deleting ${file}`);
+  rmSync(`${screenshotPath}/${file}`, { force: true });
+ }
+});
+console.log(`Successfully deleted ${screenshots.length - Array.from(screenshotGlob.scanSync(screenshotPath)).length} screenshots with no developer data bound to it.`);
+
+console.log('\n\n\nDevelopers(Name and URL):', raw.length);
+await Bun.sleep(3000);
 
 puppeteer
  .launch({
@@ -23,24 +38,25 @@ puppeteer
  .then(async browser => {
   const page = await browser.newPage();
   for (let i = 0; i < raw.length; i++) {
-   const { url, name } = raw[i];
+   const developer = raw[i];
    console.time('goto');
-   console.log(`| ${i + 1}/${raw.length} | ${url} | ${name} |`);
+   console.log(`| ${i + 1}/${raw.length} | ${developer.url} | ${developer.name} |`);
 
-   const path = `website/src/assets/screenshots/${parseUrlToScreenshotName(url, name)}`;
+   const path = `${screenshotPath}/${parseUrlToScreenshotName(developer.url, developer.name)}`;
 
    if (existsSync(path)) {
-    console.log(`Skipping ${url} | ${name} |`);
+    console.log(`Skipping ${developer.url} | ${developer.name} |`);
     continue;
    }
 
-   await page.goto(url, {
+   await page.goto(developer.url, {
     // Wait for the network layer to be empty for at least 500ms
     waitUntil: 'networkidle0',
    });
 
-   await sleep(extremelyDelayed.includes(url) ? 8500 : delayed.includes(url) ? 5000 : slightlyDelayed.includes(url) ? 2000 : 0);
+   developer.screenshot_delay && (await Bun.sleep(developer.screenshot_delay));
    await page.screenshot({ path, optimizeForSpeed: true });
+
    console.timeEnd('goto');
   }
 

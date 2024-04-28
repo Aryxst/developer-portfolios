@@ -7,18 +7,19 @@ if (!(await file.exists())) {
  process.exit(1);
 }
 const json = await file.json();
-for (const developer of json) {
- const screenshotName = parseUrlToScreenshotName(developer.url, developer.name);
+for (const { name, url, tags, featured } of json) {
+ const screenshotName = parseUrlToScreenshotName(url, name);
  if (!(await Bun.file(`website/src/assets/screenshots/${screenshotName}`).exists())) {
   continue;
  }
  Bun.write(
-  `website/src/content/developers/${normalizeName(developer.name)}.json`,
+  `website/src/content/developers/${normalizeName(name)}.json`,
   JSON.stringify({
-   name: developer.name,
-   url: developer.url,
+   name,
+   url,
    screenshot: `@/assets/screenshots/${screenshotName}`,
-   tags: developer.tags,
+   tags,
+   featured,
   }),
  );
 }

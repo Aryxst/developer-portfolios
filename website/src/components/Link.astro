@@ -1,21 +1,20 @@
 ---
+import type { HTMLAttributes } from 'astro/types';
 import { tv } from 'tailwind-variants';
 import { buttonStyles } from './Button.astro';
-
-export interface Props {
- href: string;
+export interface Props extends HTMLAttributes<'a'> {
  type?: keyof typeof linkVariants.variants.type;
 }
+
 export const linkVariants = tv({
  variants: {
   type: {
    button: buttonStyles(),
-   inlinepagenav: `${buttonStyles()} me-3`,
   },
  },
 });
 
-const { href, type, ...props } = Astro.props;
+const { href, type, ...attrs } = Astro.props;
 ---
 
-<a class={linkVariants({ type })} href={href} {...props}><slot /></a>
+<a class:list={[linkVariants({ type }), attrs.class]} {href} {...attrs}><slot /></a>

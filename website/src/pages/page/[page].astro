@@ -1,12 +1,10 @@
 ---
 import type { PaginateFunction } from 'astro';
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import Layout from '@/layouts/Layout.astro';
 import Link from '@/components/Link.astro';
-import { getStacksName } from '@root/shared/lib';
-import { type rawStack } from '@root/webscraper/src/namings';
+import WebsiteCards from '@/components/WebsiteCards.astro';
 import { href } from '@/utils';
 
 export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
@@ -17,54 +15,23 @@ const { page } = Astro.props;
 ---
 
 <Layout title={`Developer Portfolios | Page ${page.currentPage}/${page.lastPage}`}>
- <ul class='grid min-h-full w-screen grid-cols-[repeat(auto-fill,_minmax(340px,_1fr))] gap-4 p-4 lg:grid-cols-[repeat(auto-fill,_minmax(425px,_1fr))] xl:grid-cols-[repeat(auto-fill,_minmax(510px,_1fr))]'>
-  {
-   page.data
-    .sort((a, b) => b.data.tags.length - a.data.tags.length)
-    .map(developer => {
-     return (
-      <li class='border-2 border-black bg-white drop-shadow-xl'>
-       <a href={developer.data.url}>
-        <Image src={developer.data.screenshot} alt={`${developer.data.name}'s website screenshot'`} width={developer.data.screenshot.width} quality={80} decoding='async' loading='eager' format='webp' transition:name='screenshot' />
-       </a>
-       <ul class='z-10 flex flex-row flex-wrap gap-x-1 gap-y-2 border-t-2 border-black p-2'>
-        {developer.data.tags[0] ? (
-         getStacksName(developer.data.tags as rawStack[]).map((tag, i) => (
-          <li class='inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>
-           <a href={href(`/tags/${developer.data.tags[i]}`)}>#{tag}</a>
-          </li>
-         ))
-        ) : (
-         <li class='mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700'>
-          <a href={href('/tags/vanilla')}>Vanilla</a>
-         </li>
-        )}
-       </ul>
-      </li>
-     );
-    })
-  }
- </ul>
-
- <div class='mt-4 flex justify-center'>
-  <!-- Previous Button -->
-  <Link href={href(page.url.prev || page.url.current)} type='inlinepagenav' data-disabled={!page.url.prev}>
+ <div class='min-h-screen p-4'><WebsiteCards developers={page.data.sort((a, b) => b.data.tags.length - a.data.tags.length)} /></div>
+ <!-- Navigation Buttons -->
+ <div class='mt-8 flex justify-center'>
+  <Link class='me-3' href={href(page.url.prev || page.url.current)} type='button' data-disabled={!page.url.prev} data-astro-reload>
    <Icon name='lucide:arrow-left' />
    Previous
   </Link>
-  <form><input type='number' value={page.currentPage} max={page.lastPage} min='1' class='me-3 w-12 self-center rounded-lg border border-gray-300 py-2 text-center' /></form>
-  <Link href={href(page.url.next || page.url.current)} type='inlinepagenav' data-disabled={!page.url.next}>
+  <form class='me-3'>
+   <input type='number' value={page.currentPage} max={page.lastPage} min='1' class='h-10 w-12 self-center rounded-lg border border-gray-300 py-2 text-center' />
+  </form>
+  <Link href={href(page.url.next || page.url.current)} type='button' data-disabled={!page.url.next} data-astro-reload>
    Next
    <Icon name='lucide:arrow-right' />
   </Link>
  </div>
-
- <style>
-  body {
-   padding-bottom: 2em;
-  }
- </style>
 </Layout>
+
 <script>
  import { navigate } from 'astro:transitions/client';
  import { href } from '@/utils';
@@ -72,6 +39,6 @@ const { page } = Astro.props;
   event.preventDefault();
   const target = event.target as HTMLFormElement;
   const input = target.querySelector('input') as HTMLInputElement;
-  navigate(href(`/page/${input.value}`));
+  navigate(href(`/page/${input.value}`), { state: { page: input.value } });
  });
 </script>

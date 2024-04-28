@@ -10,12 +10,13 @@ const json = await file.json();
 Bun.write(
  'website/src/data/en.json',
  JSON.stringify(
-  raw.map(({ name, url }) => {
+  raw.map(({ name, url, featured }) => {
    return {
     name,
     url,
     screenshot: parseUrlToScreenshotName(url, name),
     tags: json.find(data => data[0].toLowerCase().includes(url.toLowerCase()))[4],
+    featured,
    };
   }),
  ),

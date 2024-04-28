@@ -25,3 +25,5 @@ pnpm-debug.log*
 website/src/content/developers/*
 website/src/data/en.json
 commit.md
+*test*.ts
+example.png

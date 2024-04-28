@@ -1,5 +1,45 @@
 ---
+import { getCollection } from 'astro:content';
+import Link from '@/components/Link.astro';
 import Layout from '../layouts/Layout.astro';
+import WebsiteCards from '@/components/WebsiteCards.astro';
+import { href } from '@/utils';
+const developers = (await getCollection('developers')).filter(developer => developer.data.featured);
+
+const visibleFeatured = 6;
 ---
 
-<Layout title='Developer Portfolios | Home'><p class='p-4'>WIP</p></Layout>
+<Layout title='Developer Portfolios | Home'>
+ <main class='relative mx-auto min-h-screen w-full max-w-7xl px-6 pt-16 md:px-8 lg:px-12'>
+  <section class='min-h-[42vh]'>
+   <div class='relative mx-auto flex max-w-2xl flex-col items-center text-center'>
+    <h2 class='text-3xl font-medium text-gray-900 sm:text-6xl'>
+     Collection of mixed,
+     <span class='inline-block bg-gradient-to-r from-neutral-900 via-slate-500 to-neutral-500 bg-[200%_auto] bg-clip-text leading-tight text-transparent'>developer portfolios</span>
+    </h2>
+    <p class='laeding-6 mt-6 text-gray-600'>Explore a collection of 500+ developer portfolios showcasing hundreds of different styles for inspiration. Discover the tools and technologies utilized by these developers to enhance your own projects.</p>
+    <div class='mt-6'><Link href={href('/page/1')} type='button'>Explore</Link></div>
+   </div>
+  </section>
+  <section>
+   {
+    developers.length && (
+     <div class='mt-12'>
+      <h3 class='text-2xl font-medium'>Featured</h3>
+      <div class='flex flex-col items-center space-y-12'>
+       <div class='mt-4'>
+        <WebsiteCards developers={developers.slice(0, visibleFeatured)} />
+       </div>
+
+       {developers.length > visibleFeatured && (
+        <Link href={href('/page/1')} type='button'>
+         More Featured
+        </Link>
+       )}
+      </div>
+     </div>
+    )
+   }
+  </section>
+ </main>
+</Layout>

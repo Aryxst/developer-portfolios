@@ -1,30 +1,33 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-import { getStacksName } from '@root/shared/lib';
-import { regexps, type rawStack } from '@root/webscraper/src/namings';
-const developers = await getCollection('developers');
+import { namings, type rawStack } from '@root/webscraper/src/namings';
 import { href } from '@/utils';
 
-const stacks = Object.keys(regexps).filter(stack => developers.some(developer => developer.data.tags.includes(stack))) as rawStack[];
+const developers = await getCollection('developers');
+const stacks = Object.keys(namings).filter(stack => developers.some(developer => developer.data.tags.includes(stack))) as rawStack[];
 const vanillas = developers.filter(developer => !developer.data.tags.length);
 ---
 
 <Layout title={`Developer Portfolios | Tags`}>
- <ul class='flex flex-row flex-wrap gap-x-2 gap-y-3 p-4 text-gray-700'>
-  {
-   getStacksName(stacks as rawStack[]).map((tag, i) => (
-    <li class='flex rounded-full bg-gray-200 px-2 py-1 font-semibold'>
-     <a href={href(`/tags/${stacks[i]}`)}>{tag}</a>
-    </li>
-   ))
-  }
-  {
-   vanillas.length && (
-    <li class='flex rounded-full bg-gray-200 px-2 py-1 font-semibold'>
-     <a href={href('/tags/vanilla')}>Vanilla</a>
-    </li>
-   )
-  }
- </ul>
+ <main class='min-h-[calc(100vh-6em)]'>
+  <ul class='min flex flex-row flex-wrap gap-x-2 gap-y-3 p-4 text-gray-700 max-sm:text-sm'>
+   {
+    stacks
+     .sort((a, b) => a.localeCompare(b))
+     .map(tag => (
+      <li class='flex rounded-full bg-gray-200 px-2 py-1 font-semibold'>
+       <a href={href(`/tags/${tag}`)}>{namings[tag].name}</a>
+      </li>
+     ))
+   }
+   {
+    vanillas.length && (
+     <li class='flex rounded-full bg-gray-200 px-2 py-1 font-semibold'>
+      <a href={href('/tags/vanilla')}>Vanilla</a>
+     </li>
+    )
+   }
+  </ul>
+ </main>
 </Layout>
