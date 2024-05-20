@@ -290,7 +290,8 @@
  },
  {
   "name": "Aryxst",
-  "url": "https://aryxst.github.io"
+  "url": "https://aryxst.github.io",
+  "featured": true
  },
  {
   "name": "Ashish Mehra",
@@ -579,10 +580,6 @@
  {
   "name": "Danilo Castro",
   "url": "https://www.welcomedeveloper.com"
- },
- {
-  "name": "David Clarke",
-  "url": "https://david-clarke.com"
  },
  {
   "name": "Davide Santangelo",
@@ -1618,10 +1615,6 @@
   "featured": true
  },
  {
-  "name": "Prince Muhammad",
-  "url": "https://princemuhammad.pro"
- },
- {
   "name": "Priya Nayak",
   "url": "https://priya180975.github.io/portfolio",
   "screenshot_delay": 5000
@@ -1965,6 +1958,14 @@
   "name": "Tim Jones",
   "url": "https://timmoth.com"
  },
+ { "name": "Vee", "url": "https://vendicated.dev/en", "featured": true },
+ { "name": "Vyshnav", "url": "https://vyshnav.xyz", "featured": true },
+ {
+  "name": "tnfAngel",
+  "url": "https://www.tnfangel.com/",
+  "screenshot_delay": 4000,
+  "featured": true
+ },
  {
   "name": "Torben Korb",
   "url": "https://www.digital-creative.de"
@@ -1980,11 +1981,6 @@
  {
   "name": "Uday Lunawat",
   "url": "https://udaylunawat.github.io"
- },
- {
-  "name": "Udeet Mittal",
-  "url": "https://www.udeet.codes",
-  "screenshot_delay": 5000
  },
  {
   "name": "Uğur Atmaca",

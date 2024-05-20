@@ -53,7 +53,11 @@ puppeteer
     // Wait for the network layer to be empty for at least 500ms
     waitUntil: 'networkidle0',
    });
-
+   try {
+    eval(developer.script!);
+   } catch (e) {
+    console.log(e);
+   }
    developer.screenshot_delay && (await Bun.sleep(developer.screenshot_delay));
    await page.screenshot({ path, optimizeForSpeed: true });
 
