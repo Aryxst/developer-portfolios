@@ -21,6 +21,7 @@ jobs:
       bun-version: latest
    - run: |
       bun install
+      bun scrape
       bun sort-raw-data
       bun normalize-data
       bun pipe-devs
