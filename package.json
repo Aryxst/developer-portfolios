@@ -1,9 +1,16 @@
 {
   "name": "developer-portfolios-config",
   "description": "The configuration for both website and webscraper folders, also root of git repository",
+  "scripts": {
+    "make-screenshots": "bun scripts/make-screenshots.ts",
+    "pipe-devs": "bun scripts/pipe-devs.ts",
+    "normalize-data": "bun scripts/normalize-data.ts",
+    "sort-raw-data": "bun scripts/sort-raw-data.ts",
+    "scrape": "bun webscraper/src/scrape.ts"
+  },
   "dependencies": {
-    "@types/bun": "^1.1.0",
-    "puppeteer": "^22.7.0"
+    "@types/bun": "latest",
+    "puppeteer": "^22.15.0"
   },
   "devDependencies": {
     "prettier-plugin-astro": "^0.13.0",

@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import raw from '../website/src/data/raw.json';
 import { existsSync, rmSync } from 'node:fs';
-import { normalizeUrl, parseUrlToScreenshotName } from '../shared/lib';
+import { normalizeUrl, urlToScreenshot } from '../shared/lib';
 
 console.clear();
 
@@ -42,7 +42,7 @@ puppeteer
    console.time('goto');
    console.log(`| ${i + 1}/${raw.length} | ${developer.url} | ${developer.name} |`);
 
-   const path = `${screenshotPath}/${parseUrlToScreenshotName(developer.url, developer.name)}`;
+   const path = `${screenshotPath}/${urlToScreenshot(developer.url, developer.name)}`;
 
    if (existsSync(path)) {
     console.log(`Skipping ${developer.url} | ${developer.name} |`);
@@ -53,11 +53,7 @@ puppeteer
     // Wait for the network layer to be empty for at least 500ms
     waitUntil: 'networkidle0',
    });
-   try {
-    eval(developer.script!);
-   } catch (e) {
-    console.log(e);
-   }
+
    developer.screenshot_delay && (await Bun.sleep(developer.screenshot_delay));
    await page.screenshot({ path, optimizeForSpeed: true });
 

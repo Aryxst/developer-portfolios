@@ -1,4 +1,4 @@
-import { parseUrlToScreenshotName } from '../shared/lib';
+import { urlToScreenshot } from '../shared/lib';
 import raw from '../website/src/data/raw.json';
 
 const file = Bun.file('webscraper/result.json');
@@ -14,7 +14,7 @@ Bun.write(
    return {
     name,
     url,
-    screenshot: parseUrlToScreenshotName(url, name),
+    screenshot: urlToScreenshot(url, name),
     tags: json.find(data => data[0].toLowerCase().includes(url.toLowerCase()))[4],
     featured,
    };
