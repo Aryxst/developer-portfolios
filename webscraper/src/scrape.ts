@@ -36,7 +36,7 @@ async function run(jobs: any, concurrentWorkers: number) {
    console.log(completedChunks);
    if (completedChunks === chunks.length) {
     console.timeEnd('scrape');
-    await Bun.write(import.meta.dir + '/result.json', JSON.stringify(result));
+    await Bun.write(import.meta.dir + '/../result.json', JSON.stringify(result));
     console.log(result);
     process.exit();
    }

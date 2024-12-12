@@ -215,10 +215,6 @@
   "screenshot_delay": 5000
  },
  {
-  "name": "Ankush Minda",
-  "url": "https://ankushminda.com"
- },
- {
   "name": "Anshul Gora",
   "url": "https://anshulwork.netlify.app"
  },
@@ -268,10 +264,6 @@
  {
   "name": "Ashish Mehra",
   "url": "https://ashishmehra.dev"
- },
- {
-  "name": "Ashlee Boyer",
-  "url": "https://ashleemboyer.dev"
  },
  {
   "name": "Ashwin Hariharan",
@@ -1130,11 +1122,6 @@
   "url": "https://leroyrosales.com"
  },
  {
-  "name": "Lim Takish",
-  "url": "https://www.takish155.dev/en",
-  "featured": true
- },
- {
   "name": "Lindsey Howard",
   "url": "https://lindseyk.dev"
  },
@@ -1286,10 +1273,6 @@
   "url": "https://michellebrenner.com"
  },
  {
-  "name": "Miguel Lerma",
-  "url": "https://mler.dev"
- },
- {
   "name": "Miguel Rodriguez",
   "url": "https://migu.es"
  },
@@ -1316,10 +1299,6 @@
   "screenshot_delay": 5000
  },
  {
-  "name": "Mostafa Abdelhamid",
-  "url": "https://mostafa-abdelhamid.com/#/home"
- },
- {
   "name": "Mouad ZIANI",
   "url": "https://mouadziani.github.io"
  },
@@ -1343,10 +1322,6 @@
   "name": "Musaddiq Ashfaq",
   "url": "https://musaddiq-ashfaq.github.io/Portfolio",
   "screenshot_delay": 2000
- },
- {
-  "name": "Mustafa Bhikhapurwala",
-  "url": "https://mustafadev.me"
  },
  {
   "name": "Mustapha Nkhili",
@@ -1480,10 +1455,6 @@
  {
   "name": "Pandiyan Murugan",
   "url": "https://pandiyancool.github.io/pandiyan.cool"
- },
- {
-  "name": "Panhabot Bot",
-  "url": "https://panhabot.com"
  },
  {
   "name": "Panhareach Phat",
@@ -1681,10 +1652,6 @@
   "url": "https://roshankrsoni.github.io"
  },
  {
-  "name": "Ryan MacLean",
-  "url": "https://ryanmaclean.com"
- },
- {
   "name": "Saahil D",
   "url": "https://saahild.com"
  },
@@ -1798,10 +1765,6 @@
  {
   "name": "Shahid Shaikh",
   "url": "https://shahidshaikh.com"
- },
- {
-  "name": "Shannon Crabill",
-  "url": "https://shannoncrabill.com"
  },
  {
   "name": "Shivam Raj",
@@ -1973,16 +1936,8 @@
   "url": "https://vedantathavale.webflow.io"
  },
  {
-  "name": "Vedant Milind Athavale",
-  "url": "https://vedant-athavale.byethost31.com/portfolio.html"
- },
- {
   "name": "Vidushan Chooriyakumaran",
   "url": "https://vidu.sh/an"
- },
- {
-  "name": "Vijay Singh",
-  "url": "https://itsvj.me"
  },
  {
   "name": "Vijay Verma",
@@ -2045,10 +2000,6 @@
   "url": "https://yash1200.github.io"
  },
  {
-  "name": "Yash Suhagiya",
-  "url": "https://yashsuhagiya.me"
- },
- {
   "name": "Yashita Namdeo",
   "url": "https://yashitanamdeo.github.io",
   "screenshot_delay": 5000
@@ -2073,10 +2024,6 @@
  {
   "name": "Yusuf Yildirim",
   "url": "https://www.yusufyildirim.dev"
- },
- {
-  "name": "Zaur Sharifov",
-  "url": "https://www.zaursharifov.com"
  },
  {
   "name": "Ziyad",

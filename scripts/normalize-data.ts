@@ -3,7 +3,7 @@ import raw from '../website/src/data/raw.json';
 
 const file = Bun.file('webscraper/result.json');
 if (!(await file.exists())) {
- console.log('Please run webscraper first');
+ console.log('Run webscraper first');
  process.exit(1);
 }
 const json = await file.json();
@@ -15,7 +15,7 @@ Bun.write(
     name,
     url,
     screenshot: urlToScreenshot(url, name),
-    tags: json.find(data => data[0].toLowerCase().includes(url.toLowerCase()))[4],
+    tags: json.find(([_url]) => _url.toLowerCase().includes(url.toLowerCase()))[1] ?? [],
     featured,
    };
   }),
