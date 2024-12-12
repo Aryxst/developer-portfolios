@@ -21,13 +21,9 @@ jobs:
       bun-version: latest
    - run: |
       bun install
-      cd webscraper
-      bun install
-      bun start
-      cd ..
-      bun scripts/sort_raw_data.ts
-      bun scripts/normalize_data.ts
-      bun scripts/pipe_developers_json.ts
+      bun sort-raw-data
+      bun normalize-data
+      bun pipe-devs
    - name: Build, and upload site output
      uses: withastro/action@v2
      with:
