@@ -1,26 +1,29 @@
 import { regexps } from './namings';
 import { parseUrl } from './utils';
 import { normalizeUrl } from '../../shared/lib';
+import { readdir } from 'fs/promises';
 
 declare var self: Worker;
-export type RequestResult = [string, number, number, boolean, Array<string>];
+export type RequestResult = [string, Array<string>];
+
 const outDir = import.meta.dir + '/../out';
+
 self.onmessage = async ({ data: urls }: MessageEvent) => {
  const requests: RequestResult[] = [];
  for (let i = 0; i < urls.length; i++) {
   const url = new URL(urls[i]);
   console.time('fetch');
-  console.log(`| ${i + 1}/${urls.length} | ${url} |`);
-  const tick = performance.now();
+  console.log(`| ${i + 1}/${urls.length} | ${url}`);
+
   try {
    const res = await fetch(url.href);
-   const success = res.status < 400;
    const normalizedUrl = normalizeUrl(url.href);
    const dest = `${outDir}/${normalizedUrl}.txt`;
    const file = Bun.file(dest);
 
    const writer = file.writer();
    writer.start();
+
    writer.write(
     await new HTMLRewriter()
      .on("link[rel='stylesheet']", {
@@ -68,13 +71,13 @@ self.onmessage = async ({ data: urls }: MessageEvent) => {
    const matchedExps = Object.keys(regexps)
     .map((k, i) => {
      // @ts-ignore
-     // The readonly is for getting suggestions in the namings.ts file while assign object values to the default export, so this isn't type safe.
+     // The readonly is for getting suggestions in the namings.ts file while assign object values to the default export, so this isn't type safe
      if (regexps[k].some((exp: RegExp) => exp.test(text))) return k;
      return;
     })
-    .filter(x => x) as Array<string>;
+    .filter(Boolean) as Array<string>;
    // Push the site url, the time it took to fetch it, the size of the file, whether the request was successful and the matched regexps
-   requests.push([urls[i], Math.round(performance.now() - tick), file.size, success, matchedExps]);
+   requests.push([urls[i], matchedExps]);
    console.timeEnd('fetch');
   } catch (err) {
    console.error(`Failed to process ${url}:`, err);

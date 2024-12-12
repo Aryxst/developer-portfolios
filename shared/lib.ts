@@ -13,7 +13,7 @@ function normalizeUrl(url: string) {
 function normalizeName(name: string) {
  return name.replace(/[éè]/g, 'e').replace(/[à]/g, 'a').replace(/ì/g, 'i').replace(/ /g, '_').toLowerCase();
 }
-function parseUrlToScreenshotName(url: string, name: string) {
+function urlToScreenshot(url: string, name: string) {
  const normalizedUrl = normalizeUrl(url);
  const normalizedName = normalizeName(name);
  return `${normalizedUrl}-${normalizedName}.png`;
@@ -30,4 +30,4 @@ function chunkify<T>(array: Array<T>, n: number): Array<Array<T>> {
  return chunks;
 }
 
-export { chunkify, getStacksName, normalizeName, normalizeUrl, parseUrlToScreenshotName };
+export { chunkify, getStacksName, normalizeName, normalizeUrl, urlToScreenshot };

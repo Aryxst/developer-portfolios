@@ -1,5 +1,5 @@
 // Requires webscraper and normalize_data.ts to be run
-import { normalizeName, parseUrlToScreenshotName } from '../shared/lib';
+import { normalizeName, urlToScreenshot } from '../shared/lib';
 
 const file = Bun.file('website/src/data/en.json');
 if (!(await file.exists())) {
@@ -8,7 +8,7 @@ if (!(await file.exists())) {
 }
 const json = await file.json();
 for (const { name, url, tags, featured } of json) {
- const screenshotName = parseUrlToScreenshotName(url, name);
+ const screenshotName = urlToScreenshot(url, name);
  if (!(await Bun.file(`website/src/assets/screenshots/${screenshotName}`).exists())) {
   continue;
  }
