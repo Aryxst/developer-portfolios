@@ -11,7 +11,7 @@ const urls = raw.map(x => x.url);
 
 console.log(`Found ${urls.length} entries in entry data...`);
 
-const threadCount = import.meta.env.NODE_ENV == 'PRODUCTION' ? 1 /* threads.length */ : Number(prompt(`How many worker threads do you want to use? (1-${threads.length})`));
+const threadCount = import.meta.env.NODE_ENV == 'PRODUCTION' ? threads.length : Number(prompt(`How many worker threads do you want to use? (1-${threads.length})`));
 if (!threadCount || threadCount > threads.length || threadCount == 0) throw Error('Must provide a number of threads less or equal to the number of threads, and not equal to 0!');
 if (!(await exists(outDir))) {
  await mkdir(outDir);
