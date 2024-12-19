@@ -77,7 +77,7 @@ self.onmessage = async ({ data: urls }: MessageEvent) => {
     })
     .filter(Boolean) as Array<string>;
    // Push the site url, the time it took to fetch it, the size of the file, whether the request was successful and the matched regexps
-   requests.push([urls[i], matchedExps]);
+   requests.push([url.toString(), matchedExps]);
    console.timeEnd('fetch');
   } catch (err) {
    console.error(`Failed to process ${url}:`, err);
