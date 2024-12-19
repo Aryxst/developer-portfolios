@@ -6,7 +6,7 @@
     "pipe-devs": "bun scripts/pipe-devs.ts",
     "normalize-data": "bun scripts/normalize-data.ts",
     "sort-raw-data": "bun scripts/sort-raw-data.ts",
-    "scrape": "bun webscraper/src/scrape.ts"
+    "scrape": "bun webscraper/src/index.ts"
   },
   "dependencies": {
     "@types/bun": "latest",
