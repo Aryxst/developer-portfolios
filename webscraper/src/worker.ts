@@ -1,7 +1,6 @@
 import { regexps } from './namings';
 import { parseUrl } from './utils';
-import { normalizeUrl } from '../../shared/lib';
-import { readdir } from 'fs/promises';
+import { normalizeUrl } from '../../shared/lib';;
 
 declare var self: Worker;
 export type RequestResult = [string, Array<string>];
