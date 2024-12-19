@@ -66,16 +66,15 @@ self.onmessage = async ({ data: urls }: MessageEvent) => {
      .arrayBuffer(),
    );
    writer.end();
+   
    const text = await file.text();
    const matchedExps = Object.keys(regexps)
-    .map((k, i) => {
-     // @ts-ignore
-     // The readonly is for getting suggestions in the namings.ts file while assign object values to the default export, so this isn't type safe
-     if (regexps[k].some((exp: RegExp) => exp.test(text))) return k;
+    .map(key => {
+     if (regexps[key as keyof typeof regexps].some((exp: RegExp) => exp.test(text))) return key;
      return;
     })
     .filter(Boolean) as Array<string>;
-   // Push the site url, the time it took to fetch it, the size of the file, whether the request was successful and the matched regexps
+   
    requests.push([url.toString(), matchedExps]);
    console.timeEnd('fetch');
   } catch (err) {
